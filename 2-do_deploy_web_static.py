@@ -43,5 +43,5 @@ def do_deploy(archive_path):
         run('ln -s {} {}'.format(path, current))
         print('New version deployed!')
         return True
-    except:
+    except Exception:
         return False
