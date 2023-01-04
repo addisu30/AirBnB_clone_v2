@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 """
-Created on 2023 Jan Wed 04 12:45:54 
+Created on 2023 Jan Wed 04 12:45:54
 @author: addisu dabale
 """
 from fabric.api import local, env
