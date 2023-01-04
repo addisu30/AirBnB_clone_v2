@@ -10,6 +10,7 @@ from datetime import datetime
 env.user = 'ubuntu'
 env.hosts = ['54.173.51.68', '54.161.240.173']
 
+
 def do_pack():
     """
     Targging project directory into a packages as .tgz
