@@ -1,4 +1,4 @@
-##!/usr/bin/python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 """Starts a Flask web application.
 
