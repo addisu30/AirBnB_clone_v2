@@ -1,29 +1,26 @@
-#!/usr/bin/python3
+##!/usr/bin/python3
+# -*- coding: utf-8 -*-
 """Starts a Flask web application.
+
 The application listens on 0.0.0.0, port 5000.
 Routes:
-    /: Displays 'Hello HBNB!'.
-    /hbnb: Displays 'HBNB'.
+
 """
 from flask import Flask
-
 app = Flask(__name__)
 
 
-@app.route("/", strict_slashes=False)
-def hello_hbnb():
-    """Displays 'Hello HBNB!'."""
-    return "Hello HBNB!"
+@app.route('/', strict_slashes=False)
+def hello():
+    """Start a basic Flask web application"""
+    return 'Hello HBNB!'
 
 
-@app.route("/hbnb", strict_slashes=False)
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    """Displays 'HBNB'."""
-    return "HBNB"
+    """Adding a specific route /hbnb"""
+    return 'HBNB'
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port = 5000)
-=======
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host='0.0.0.0', port=5000)
