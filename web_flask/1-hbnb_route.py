@@ -22,10 +22,8 @@ def hbnb():
     return "HBNB"
 
 
-<<<<<<< HEAD
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port = 5000)
 =======
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
->>>>>>> 193c16293eb429183fd4142bf80c8793f8a903c3
