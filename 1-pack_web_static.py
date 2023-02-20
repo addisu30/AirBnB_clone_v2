@@ -1,9 +1,5 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
-"""
-Created on 2023 Jan Wed 04 12:45:54
-@author: addisu dabale
-"""
+# fabfile to generate archive file
 from fabric.api import local, env
 from datetime import datetime
 
