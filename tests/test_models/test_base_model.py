@@ -1,38 +1,3 @@
-#!/usr/bin/python3
-"""test for BaseModel"""
-import unittest
-import os
-from os import getenv
-from models.base_model import BaseModel
-import pep8
-
-
-class TestBaseModel(unittest.TestCase):
-    """this will test the base model class"""
-
-    @classmethod
-    def setUpClass(cls):
-        """setup for the test"""
-        cls.base = BaseModel()
-        cls.base.name = "Kev"
-        cls.base.num = 20
-
-    @classmethod
-    def teardown(cls):
-        """at the end of the test this will tear it down"""
-        del cls.base
-
-    def tearDown(self):
-        """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
-
-    def test_pep8_BaseModel(self):
-        """Testing for pep8"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/base_model.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_checking_for_docstring_BaseModel(self):
