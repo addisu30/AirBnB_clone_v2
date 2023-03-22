@@ -13,7 +13,7 @@ class FileStorage:
         class_dict = {}
         if cls:
             for key, value in self.__objects.items():
-                if value.__class__ is cls:
+                if value.__class__.__name__ is cls:
                     class_dict.update({key: value})
             return class_dict
         else:
