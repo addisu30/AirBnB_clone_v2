@@ -1,47 +1,51 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, ForeignKey, Float
-from sqlalchemy.orm import relationship
-from models import storage
+import os
+import models
+from models.base_model import BaseModel, Base, Column, Integer
+from models.city import ForeignKey
+from models import String, relationship
+from sqlalchemy import Float, Table
+
+place_amenity = Table("place_amenity",
+                      Base.metadata,
+                      Column("place_id", String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column("amenity_id", String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
     """ A place to stay """
-    from models.review import Review
-    import os
+    __tablename__ = "places"
 
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
-        __tablename__ = "places"
-
-        city_id = Column("city_id", String(60),
-                         ForeignKey("cities.id"), nullable=False)
-        user_id = Column("user_id", String(60),
-                         ForeignKey("users.id"), nullable=False)
-        name = Column("name", String(128), nullable=False)
-        description = Column("description",
-                             String(1024), nullable=True)
-        number_rooms = Column("number_rooms",
-                              Integer, nullable=False, default=0)
-        number_bathrooms = Column("number_bathrooms",
-                                  Integer, nullable=False, default=0)
-        max_guest = Column("max-guest", Integer,
-                           nullable=False, default=0)
-        price_by_night = Column("price_by_night",
-                                Integer, nullable=False, default=0)
-        latitude = Column("latitude", Float, nullable=True)
-        longitude = Column("longitude", Float, nullable=True)
+        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+        user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+        name = Column(String(128), nullable=False)
+        description = Column(String(1028), nullable=True)
+        number_rooms = Column(Integer, nullable=False, default=0)
+        number_bathrooms = Column(Integer, nullable=False, default=0)
+        max_guest = Column(Integer, nullable=False, default=0)
+        price_by_night = Column(Integer, nullable=False, default=0)
+        latitude = Column(Float, nullable=True)
+        longitude = Column(Float, nullable=True)
         amenity_ids = []
+        user = relationship("User", back_populates="places")
+        cities = relationship("City", back_populates="places")
+        reviews = relationship("Review", back_populates="place")
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False,
+                                 back_populates="place_amenities")
 
-        reviews = relationship(Review, backref="place")
-    else:
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
         @property
-        def reviews(self):
-            """getter method to get the review with
-            place_id == current instance place_id
-            for filestorage database server"""
+        def review(self):
             review_list = []
-            for key, value in storage.all(self):
-                if value.id == self.id:
-                    review_list.append(value)
+            for review in models.storage.all("Review").values():
+                if review.state_id == self.id:
+                    review_list.append(review)
             return review_list

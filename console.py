@@ -2,8 +2,8 @@
 """ Console Module """
 import cmd
 import sys
+import models
 from models.base_model import BaseModel
-from models.__init__ import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 if pline:
                     # check for *args or **kwargs
                     if pline[0] == '{' and pline[-1] == '}'\
-                            and type(eval(pline)) == dict:
+                            and type(eval(pline)) is dict:
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -115,24 +115,30 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        args_list = args.split(' ')
-        class_name = args_list[0]
-        print(class_name)
-        if not args:
+        params = args.split(' ')
+        idx = 1
+        c_name = params[0]
+        if not c_name:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        elif c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[class_name]()
-        for item in args_list[1:]:
-            key, sep, value = item.partition("=")
+        try:
+            new_instance = HBNBCommand.classes[c_name]()
+        except Exception as err:
+            print(err)
+        while (idx < len(params)):
+            key = params[idx].partition('=')[0]
+            value = params[idx].partition('=')[2]
             try:
-                setattr(new_instance, key,
-                        float(value) if "." in value else int(value))
-            except ValueError as err:
+                setattr(new_instance, key, float(value))\
+                        if '.' in value else\
+                        setattr(new_instance, key, int(value))
+            except ValueError:
                 new_value = " ".join(value.split("_")).strip("\"'")
                 setattr(new_instance, key, new_value)
+            idx = idx + 1
         print(new_instance.id)
         new_instance.save()
 
@@ -165,7 +171,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            print(models.storage._FileStorage__objects[key])
         except KeyError:
             print("** no instance found **")
 
@@ -212,15 +218,15 @@ class HBNBCommand(cmd.Cmd):
         print_list = []
 
         if args:
-            obj = args.split(' ')[0]  # remove possible trailing args
-            if obj not in HBNBCommand.classes:
+            args = args.split(' ')[0]  # remove possible trailing args
+            if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all(obj).items():
-                if k.split('.')[0] == obj:
+            for k, v in models.storage.all(args).items():
+                if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage.all().items():
+            for k, v in models.storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
