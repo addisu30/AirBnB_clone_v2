@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/python3
 """test for console"""
 import unittest
@@ -235,3 +236,6 @@ class TestConsole(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+=======
+
+>>>>>>> 20222ba05ffb64fd4dc0d5bf49800b20d555745d
