@@ -17,4 +17,18 @@ def hello():
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
+=======
+from flask import Flask
+
+
+app = Flask(__name__)
+
+@app.route('/', strict_slashes=False)
+def Display_hello():
+    return ('“Hello HBNB!”')
+
+
+if __name__ == "__main__":
+>>>>>>> 281576492604814996c27ad30d910d5154662e8c
     app.run(host='0.0.0.0', port=5000)
