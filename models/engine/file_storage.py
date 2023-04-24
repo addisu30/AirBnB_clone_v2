@@ -41,6 +41,7 @@ class FileStorage:
         else:
             return self.__objects
         return fs_objects
+
     def new(self, obj):
         '''
             Set in __objects the obj with key <obj class name>.id
@@ -50,6 +51,7 @@ class FileStorage:
         key = str(obj.__class__.__name__) + "." + str(obj.id)
         value_dict = obj
         FileStorage.__objects[key] = value_dict
+
     def save(self):
         '''
             Serializes __objects attribute to JSON file.
@@ -59,6 +61,7 @@ class FileStorage:
             objects_dict[key] = val.to_dict()
         with open(FileStorage.__file_path, mode='w', encoding="UTF8") as fd:
             json.dump(objects_dict, fd)
+
     def reload(self):
         '''
             Deserializes the JSON file to __objects.
@@ -72,6 +75,7 @@ class FileStorage:
                 FileStorage.__objects[key] = class_name(**val)
         except FileNotFoundError:
             pass
+
     def delete(self, obj=None):
         """
         delete object from __objects if it's inside
